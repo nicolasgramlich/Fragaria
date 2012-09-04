@@ -37,7 +37,6 @@ NSString * const KMGSSyntaxDefinitionsFolder = @"Syntax Definitions";
 - (NSDictionary *)syntaxDefinitionWithName:(NSString *)name;
 - (NSBundle *)bundle;
 
-@property (retain) NSArray *syntaxDefinitionNames;
 @property (retain) NSMutableDictionary *syntaxDefinitions;
 
 @end
