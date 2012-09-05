@@ -201,9 +201,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
 	while (indexNonWrap <= maxRangeVisibleRange) {
 		if (idx == indexNonWrap) {
 			lineNumber++;
-			[lineNumbersString appendFormat:@"%i\n", lineNumber];
+			[lineNumbersString appendFormat:@"%li\n", lineNumber];
 		} else {
-			[lineNumbersString appendFormat:@"%C\n", 0x00B7];
+			[lineNumbersString appendFormat:@"%C\n", (uint16_t)0xB7];
 			indexNonWrap = idx;
 		}
 		
