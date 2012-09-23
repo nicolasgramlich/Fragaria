@@ -15,7 +15,7 @@
 # endif
 #endif
 
-#ifdef __OBJC__
+#ifdef __OBJC__ /* Xcode 4.5: "Jump to definition" may take multiple attempts for macros. */
 # import <Cocoa/Cocoa.h>
 # ifdef C99
 #  import <float.h>
@@ -23,10 +23,17 @@
 #  import <limits.h>
 #  import <stdarg.h>
 #  import <stddef.h>
-#  import <stdint.h> /* Xcode 4.4: "Jump to definition" invisible in comments, ex: UINT32_MAX */
+#  import <stdint.h>
 #  import <stdlib.h>
 # elif defined(__cplusplus)
 # define OBJCPP
+#  import <cfloat>
+#  import <ciso646>
+#  import <climits>
+#  import <cstdarg>
+#  import <cstddef>
+#  import <cstdint>
+#  import <cstdlib>
 # else
 # warning Either C99 or __cplusplus should be defined.
 # endif
