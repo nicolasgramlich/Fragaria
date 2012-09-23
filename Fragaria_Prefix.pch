@@ -25,7 +25,9 @@
 #  import <stddef.h>
 #  import <stdint.h> /* Xcode 4.4: "Jump to definition" invisible in comments, ex: UINT32_MAX */
 #  import <stdlib.h>
+# elif defined(__cplusplus)
+# define OBJCPP
 # else
-# warning "Apple Objective-C++ 2.0+ should support C99! (Apple Clang/LLVM)"
+# warning Either C99 or __cplusplus should be defined.
 # endif
 #endif
