@@ -198,7 +198,7 @@ unsigned const ICUUnicodeWordBoundaries = UREGEX_UWORD;
 		UChar *destFields[destFieldsCapacity];
 		int numberOfComponents = uregex_split([self re],
 											  destBuf,
-											  destCapacity,
+											  (int32_t)destCapacity,
 											  &requiredCapacity,
 											  destFields,
 											  destFieldsCapacity,
@@ -206,12 +206,12 @@ unsigned const ICUUnicodeWordBoundaries = UREGEX_UWORD;
 		
 		if(status == U_BUFFER_OVERFLOW_ERROR) { // buffer was too small, grow it
 			NSZoneFree([self zone], destBuf);
-			NSAssert(destCapacity * 2 < INT_MAX, @"Overflow occurred splitting string.");
+			NSAssert(destCapacity * 2 < INT32_MAX, @"Overflow occurred splitting string.");
 			destCapacity = (destCapacity < (unsigned)requiredCapacity) ? (unsigned)requiredCapacity : destCapacity * 2;
 			status = 0;
 		} else if(destFieldsCapacity == numberOfComponents) {
 			destFieldsCapacity *= 2;
-			NSAssert(destFieldsCapacity *2 < INT_MAX, @"Overflow occurred splitting string.");
+			NSAssert(destFieldsCapacity *2 < INT32_MAX, @"Overflow occurred splitting string.");
 			NSZoneFree([self zone], destBuf);
 			status = 0;
 		} else if(U_FAILURE(status)) {
@@ -231,7 +231,7 @@ unsigned const ICUUnicodeWordBoundaries = UREGEX_UWORD;
 
 	if(U_FAILURE(status))
 		[NSException raise:@"Split Exception"
-					format:@"Unable to split string: %@", u_errorName(status)];
+					format:@"Unable to split string: %s", u_errorName(status)];
 
 	return [NSArray arrayWithArray:results];	
 }

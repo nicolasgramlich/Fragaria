@@ -56,11 +56,11 @@ static id sharedInstance = nil;
         self = [super init];
         sharedInstance = self;
         
-		darkSideLineEnding = [[NSString alloc] initWithFormat:@"%C%C", 0x000D, 0x000A];
-		macLineEnding = [[NSString alloc] initWithFormat:@"%C", 0x000D];
-		unixLineEnding = [[NSString alloc] initWithFormat:@"%C", 0x000A];
+		darkSideLineEnding = [[NSString alloc] initWithFormat:@"%C%C", (uint16_t)0x0D, (uint16_t)0x0A];
+		macLineEnding = [[NSString alloc] initWithFormat:@"%C", (uint16_t)0x0D];
+		unixLineEnding = [[NSString alloc] initWithFormat:@"%C", (uint16_t)0x0A];
 		
-		newLineSymbolString = [[NSString alloc] initWithFormat:@"%C", 0x23CE];
+		newLineSymbolString = [[NSString alloc] initWithFormat:@"%u", (uint32_t)0x23CE];
     }
     return sharedInstance;
 }

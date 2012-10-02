@@ -2,6 +2,39 @@
 // Prefix header for all source files of the 'Fragaria' target in the 'Fragaria' project
 //
 
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
+#if defined(__STDC__)
+# define C89
+# if defined(__STDC_VERSION__)
+#  define C90
+#  if (__STDC_VERSION__ >= 199409L)
+#   define C94
+#  endif
+#  if (__STDC_VERSION__ >= 199901L)
+#   define C99
+#  endif
+# endif
+#endif
+
+#ifdef __OBJC__ /* Xcode 4.5: "Jump to definition" may take multiple attempts for macros. */
+# import <Cocoa/Cocoa.h>
+# ifdef C99
+#  import <float.h>
+#  import <iso646.h>
+#  import <limits.h>
+#  import <stdarg.h>
+#  import <stddef.h>
+#  import <stdint.h>
+#  import <stdlib.h>
+# elif defined(__cplusplus)
+# define OBJCPP
+#  import <cfloat>
+#  import <ciso646>
+#  import <climits>
+#  import <cstdarg>
+#  import <cstddef>
+#  import <cstdint>
+#  import <cstdlib>
+# else
+# warning Either C99 or __cplusplus should be defined.
+# endif
 #endif

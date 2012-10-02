@@ -101,12 +101,13 @@ typedef struct URegularExpression URegularExpression;
 
 -(NSString *)groupAtIndex:(unsigned)groupIndex {
 	size_t groupSize = InitialGroupSize;
+        NSAssert(groupSize < INT32_MAX, @"size_t cast later to int32_t");
 	URegularExpression *re = [[self pattern] re];
 
 	while(YES) { 
 		UErrorCode status = 0;
 		UChar *dest = (UChar *)NSZoneCalloc([self zone], groupSize, sizeof(UChar));
-		int32_t buffSize = uregex_group(re, groupIndex, dest, groupSize, &status);
+		int32_t buffSize = uregex_group(re, groupIndex, dest, (int32_t)groupSize, &status);
 
 		if(U_BUFFER_OVERFLOW_ERROR == status) {
 			groupSize *= 2;
@@ -155,6 +156,7 @@ typedef struct URegularExpression URegularExpression;
 	BOOL replacementCompleted = NO;
 	int resultLength = 0;
 	size_t destStringBufferSize = searchTextLength * 2;
+        NSAssert(destStringBufferSize < INT32_MAX, @"size_t cast later to int32_t");
 	UChar *destString = NULL;
 	while(!replacementCompleted) {
 		
@@ -167,15 +169,16 @@ typedef struct URegularExpression URegularExpression;
 	
 		status = 0;
 		if(replacingAll)
-			resultLength = uregex_replaceAll(re, replacementText, -1, destString, destStringBufferSize, &status);
+			resultLength = uregex_replaceAll(re, replacementText, -1, destString, (int32_t)destStringBufferSize, &status);
 		else
-			resultLength = uregex_replaceFirst(re, replacementText, -1, destString, destStringBufferSize, &status);
+			resultLength = uregex_replaceFirst(re, replacementText, -1, destString, (int32_t)destStringBufferSize, &status);
 
 		// realloc some more space if possible
 		if(status == U_BUFFER_OVERFLOW_ERROR) {
 
 			destStringBufferSize = resultLength + 1;
-			
+			NSAssert(destStringBufferSize < INT32_MAX, @"size_t cast later to int32_t");
+                  
 			UChar *prevString = destString;
 			destString = NSZoneRealloc([self zone], destString, destStringBufferSize*sizeof(UChar));
 			
